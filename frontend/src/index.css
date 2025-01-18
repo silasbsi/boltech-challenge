@@ -1,0 +1,12 @@
+* {
+   margin: 0;
+   outline: 0;
+   box-sizing: border-box;
+   text-decoration: none;
+   font-family: Roboto, Arial, sans-serif;
+}
+
+a,
+button {
+   cursor: pointer;
+}
