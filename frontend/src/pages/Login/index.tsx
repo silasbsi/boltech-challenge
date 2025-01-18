@@ -4,6 +4,7 @@ import "./index.scss";
 import { useForm } from "react-hook-form";
 
 import zodSchema, { zodResolver } from "../../common/schema/zod";
+import { Link } from "react-router-dom";
 
 type FormValues = {
    userEmail: string;
@@ -63,9 +64,9 @@ const Login = () => {
             <article className="col col-5 register-content d-flex flex-column align-items-center justify-content-center">
                <h2>Hello,</h2>
                <p>Enter your personal details</p>
-               <button type="button" className="btn btn-outline-light">
+               <Link to="/register" className="btn btn-outline-light">
                   Sign up
-               </button>
+               </Link>
             </article>
          </div>
       </section>
