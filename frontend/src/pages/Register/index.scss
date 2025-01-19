@@ -1,17 +1,55 @@
 .register-section {
+   display: flex;
+   align-items: center;
+   justify-content: center;
    height: 100vh;
    background-color: #e9f0f1;
+   padding: 30px;
+
+   h2 {
+      color: white;
+   }
 
    .register-container {
       background-color: white;
       border-radius: 20px;
-      width: 50%;
+      width: 775px;
       height: 60%;
 
       .register-content {
          background-color: #12a49c;
          height: 100%;
          border-radius: 20px;
+         display: flex;
+         flex-direction: column;
+         align-items: center;
+         justify-content: center;
+
+         form {
+            width: 350px;
+         }
+      }
+   }
+}
+
+@media (max-width: 870px) {
+   .register-section {
+      .register-container {
+         width: 600px;
+      }
+   }
+}
+
+@media (max-width: 660px) {
+   .register-section {
+      .register-container {
+         width: 500px;
+
+         .register-content {
+            form {
+               width: 300px;
+            }
+         }
       }
    }
 }

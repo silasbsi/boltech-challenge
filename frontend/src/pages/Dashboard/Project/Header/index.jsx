@@ -1,14 +1,14 @@
-import { useContext, useEffect, useState } from "react";
-import ProjectService from "../../../services/projectService";
-import zodSchema, { zodResolver } from "../../../schema/zod";
+import { useContext, useState } from "react";
+import ProjectService from "../../../../services/projectService";
+import zodSchema, { zodResolver } from "../../../../schema/zod";
 import { useForm } from "react-hook-form";
-import { DashboardContext } from "../../../context/DashboardContext";
+import { DashboardContext } from "../../../../context/DashboardContext";
 
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 
 import "./index.scss";
 
-const ProjectHeader = ({ title, projectId }) => {
+const Header = ({ title, projectId }) => {
    const [projects, setProjects] = useContext(DashboardContext);
    const [isEditingProject, setIsEditingProject] = useState(false);
    const [headerTitle, setHeaderTitle] = useState(title);
@@ -109,4 +109,4 @@ const ProjectHeader = ({ title, projectId }) => {
    );
 };
 
-export default ProjectHeader;
+export default Header;

@@ -11,6 +11,7 @@ import { toast } from "react-toastify";
 
 const Login = () => {
    const navigate = useNavigate();
+
    const {
       register,
       handleSubmit,
@@ -27,11 +28,18 @@ const Login = () => {
       navigate("/dashboard");
    });
 
+   useEffect(() => {
+      const isAuthenticated = localStorage.getItem("app-token");
+      if (isAuthenticated) {
+         navigate("/dashboard", { replace: true });
+      }
+   }, [navigate]);
+
    return (
-      <section className="login-section d-flex align-items-center justify-content-center">
-         <div className="row login-container d-flex">
-            <article className="col col-7 login-content d-flex flex-column align-items-center justify-content-center">
-               <form className="w-50" onSubmit={onSubmit}>
+      <section className="login-section">
+         <div className="row login-container">
+            <article className="col col-12 col-xl-7 login-content">
+               <form onSubmit={onSubmit}>
                   <h2>Sign in</h2>
                   <div className="mb-3 row">
                      <input
@@ -50,6 +58,7 @@ const Login = () => {
                         type="password"
                         id="userPassword"
                         className="form-control"
+                        placeholder="password"
                         aria-label="Fill your password"
                      />
                      {errors?.userPassword && (
@@ -57,15 +66,13 @@ const Login = () => {
                      )}
                   </div>
                   <div className="row">
-                     <input
-                        className="btn btn-primary w-100"
-                        type="submit"
-                        value="Submit"
-                     ></input>
+                     <button className="btn btn-primary w-100" type="submit">
+                        Login
+                     </button>
                   </div>
                </form>
             </article>
-            <article className="col col-5 register-content d-flex flex-column align-items-center justify-content-center">
+            <article className="col col-12 col-xl-5 register-content">
                <h2>Hello,</h2>
                <p>Enter your personal details</p>
                <Link to="/register" className="btn btn-outline-light mt-2">

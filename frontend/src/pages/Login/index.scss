@@ -1,17 +1,57 @@
 .login-section {
    height: 100vh;
    background-color: #e9f0f1;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   padding: 30px;
 
    .login-container {
       background-color: white;
       border-radius: 20px;
-      width: 50%;
+      width: 950px;
       height: 60%;
+
+      .login-content {
+         display: flex;
+         flex-direction: column;
+         justify-content: center;
+         align-items: center;
+      }
 
       .register-content {
          background-color: #12a49c;
-         height: 100%;
          border-radius: 0 20px 20px 0;
+         color: white;
+         display: flex;
+         align-items: center;
+         justify-content: center;
+         flex-direction: column;
+      }
+
+      form {
+         width: 300px;
+      }
+
+      button {
+         background-color: #12a49c;
+         border-color: #12a49c;
+         transition: all 0.2;
+
+         &:hover {
+            background-color: #0f8e7d;
+            border-color: #0f8e7d;
+         }
+      }
+   }
+}
+
+@media (max-width: 1200px) {
+   .login-section {
+      .login-container {
+         .register-content {
+            border-radius: 0 0 20px 20px;
+         }
       }
    }
 }

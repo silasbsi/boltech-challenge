@@ -14,6 +14,7 @@ export const DashboardProvider = ({ children }) => {
          return {
             id: project._id,
             name: project.name,
+            createdAt: project.createdAt,
          };
       });
 

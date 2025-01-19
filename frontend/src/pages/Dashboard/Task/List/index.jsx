@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 
-import classNames from "classnames";
+import TaskService from "../../../../services/taskService";
+import Task from "..";
 
-import "./index.scss";
-import TaskService from "../../../services/taskService";
-import EditingTask from "../EditingTask";
 import { toast } from "react-toastify";
 
-const TaskList = ({ tasks, updateCallback, deleteCallback, projectId }) => {
+import "./index.scss";
+
+const List = ({ tasks, updateCallback, deleteCallback, projectId }) => {
    const [finishedTasks, setFinishedTasks] = useState([]);
    const [activeTasks, setActiveTasks] = useState([]);
    const [isEditingTask, setIsEditingTask] = useState({});
@@ -84,7 +84,9 @@ const TaskList = ({ tasks, updateCallback, deleteCallback, projectId }) => {
                         <div className="form-check">
                            <div
                               className="task-container"
-                              title={`Task ${activeTask.description}, created at ${activeTask.createdAt}`}
+                              title={`Task ${
+                                 activeTask.description
+                              }, created at ${new Date(activeTask.createdAt)}`}
                            >
                               <input
                                  className="form-check-input"
@@ -104,7 +106,7 @@ const TaskList = ({ tasks, updateCallback, deleteCallback, projectId }) => {
                      )}
 
                      {isEditingTask.taskId === activeTask.id && (
-                        <EditingTask
+                        <Task.Edit
                            task={activeTask}
                            handleUpdate={handleUpdate}
                         />
@@ -144,7 +146,11 @@ const TaskList = ({ tasks, updateCallback, deleteCallback, projectId }) => {
                   <div
                      key={fininishedTask.id}
                      className="form-check"
-                     title={`Task ${fininishedTask.description}, created at ${fininishedTask.createdAt} and finished at ${fininishedTask.finishedAt}`}
+                     title={`Task ${
+                        fininishedTask.description
+                     }, created at ${new Date(
+                        fininishedTask.createdAt
+                     )} and finished at ${new Date(fininishedTask.finishedAt)}`}
                   >
                      <input
                         className="form-check-input"
@@ -169,4 +175,4 @@ const TaskList = ({ tasks, updateCallback, deleteCallback, projectId }) => {
    );
 };
 
-export default TaskList;
+export default List;

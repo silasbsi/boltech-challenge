@@ -1,31 +1,36 @@
 import { useContext, useState, useEffect } from "react";
 
-import ProjectCard from "../ProjectCard";
-import { DashboardContext } from "../../../context/DashboardContext";
+import { DashboardContext } from "../../../../context/DashboardContext";
 
 import "./index.scss";
+import Project from "..";
 
-const ProjectList = () => {
+const List = () => {
    const [projects] = useContext(DashboardContext);
 
    const [projectList, setProjectList] = useState([]);
 
    useEffect(() => {
-      setProjectList(projects);
+      const projectsSortedDescending = projects.sort((a, b) => {
+         return new Date(b.createdAt) - new Date(a.createdAt);
+      });
+
+      setProjectList(projectsSortedDescending);
    }, [projects]);
 
    return (
       <div className="flex-wrap cards-container">
          {projectList &&
             projectList.map((project) => (
-               <ProjectCard
+               <Project.Card
                   key={project.id}
                   title={project.name}
                   id={project.id}
                />
             ))}
+         {projectList.length === 0 && <small>No projects</small>}
       </div>
    );
 };
 
-export default ProjectList;
+export default List;

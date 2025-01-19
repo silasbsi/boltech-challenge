@@ -1,17 +1,17 @@
-import zodSchema, { zodResolver } from "../../../schema/zod";
 import { useForm } from "react-hook-form";
 
 import "./index.scss";
 
-import "./index.scss";
-import TaskService from "../../../services/taskService";
 import { useEffect, useState } from "react";
 
-import ProjectHeader from "../ProjectHeader";
-import TaskList from "../TaskList";
 import { toast } from "react-toastify";
+import zodSchema, { zodResolver } from "../../../../schema/zod";
 
-const ProjectCard = ({ title, id }) => {
+import Project from "..";
+import TaskService from "../../../../services/taskService";
+import Task from "../../Task";
+
+const Card = ({ title, id }) => {
    const [tasks, setTasks] = useState([]);
 
    const {
@@ -103,10 +103,10 @@ const ProjectCard = ({ title, id }) => {
 
    return (
       <div className="card card-content">
-         <ProjectHeader title={title} projectId={id} />
+         <Project.Header title={title} projectId={id} />
 
          <div className="card-body">
-            <TaskList
+            <Task.List
                tasks={tasks}
                updateCallback={updateCallback}
                deleteCallback={deleteCallback}
@@ -115,16 +115,15 @@ const ProjectCard = ({ title, id }) => {
          </div>
          <form onSubmit={onSubmit}>
             <div className="card-footer d-flex align-item-center justify-content-between">
-               <div className="w-100">
-                  <input
-                     {...register("taskName")}
-                     className="form-control"
-                     type="text"
-                     placeholder="Task"
-                     aria-label="Create a new task"
-                  />
-               </div>
-               <div className="w-25 ms-3">
+               <input
+                  {...register("taskName")}
+                  className="form-control"
+                  type="text"
+                  placeholder="Task"
+                  aria-label="Create a new task"
+               />
+
+               <div className="ms-3">
                   <button type="submit" className="btn btn-success">
                      Add
                   </button>
@@ -137,4 +136,4 @@ const ProjectCard = ({ title, id }) => {
    );
 };
 
-export default ProjectCard;
+export default Card;

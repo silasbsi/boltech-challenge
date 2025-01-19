@@ -1,4 +1,6 @@
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
+import "./index.scss";
 
 const Navbar = ({ title, userName }) => {
    const navigate = useNavigate();
@@ -12,7 +14,7 @@ const Navbar = ({ title, userName }) => {
 
    return (
       <nav className="navbar navbar-expand-lg bg-body-tertiary">
-         <div className="container px-4">
+         <div className="container">
             <a className="navbar-brand" href="#">
                {title}
             </a>

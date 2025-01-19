@@ -1,10 +1,10 @@
 import { useForm } from "react-hook-form";
-import zodSchema, { zodResolver } from "../../../schema/zod";
+import zodSchema, { zodResolver } from "../../../../schema/zod";
 import { useState } from "react";
-import TaskService from "../../../services/taskService";
+import TaskService from "../../../../services/taskService";
 import { toast } from "react-toastify";
 
-const EditingTask = ({ task, handleUpdate }) => {
+const Edit = ({ task, handleUpdate }) => {
    const [taskDescription, setTaskDescription] = useState(task.description);
    const {
       register,
@@ -49,4 +49,4 @@ const EditingTask = ({ task, handleUpdate }) => {
    );
 };
 
-export default EditingTask;
+export default Edit;

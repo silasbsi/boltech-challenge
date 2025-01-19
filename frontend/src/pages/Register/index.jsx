@@ -29,24 +29,35 @@ const Register = () => {
       if (response.error) {
          return toast.error(response.error);
       } else {
+         const payload = {
+            userEmail: response.user.email,
+            userPassword: data.userPassword,
+         };
+
+         const authResponse = await UserService.authenticate(payload);
+
+         if (authResponse.error) {
+            return toast.error(authResponse.error);
+         }
+
          toast.success("User successfully registered!");
          navigate("/dashboard");
       }
    });
 
    return (
-      <section className="register-section d-flex align-items-center justify-content-center">
+      <section className="register-section ">
          <div className="row register-container d-flex">
-            <article className="register-content d-flex flex-column align-items-center justify-content-center">
+            <article className="register-content">
                <h2>Register</h2>
-               <form className="w-50 mt-3" onSubmit={onSubmit}>
+               <form className="mt-3" onSubmit={onSubmit}>
                   <div className="mb-3 row">
                      <input
                         {...register("userName")}
                         type="text"
                         className="form-control"
                         id="userName"
-                        placeholder="Name"
+                        placeholder="name"
                         aria-label="Fill your name"
                      />
                      {errors?.userName && <p>{errors.userName.message}</p>}
@@ -68,7 +79,7 @@ const Register = () => {
                         type="password"
                         id="userPassword"
                         className="form-control"
-                        placeholder="Password"
+                        placeholder="password"
                         aria-label="Fill your password"
                      />
                      {errors?.userPassword && (
@@ -76,11 +87,12 @@ const Register = () => {
                      )}
                   </div>
                   <div className="row">
-                     <input
-                        className="btn btn-primary w-100"
+                     <button
+                        className="btn btn-outline-light w-100"
                         type="submit"
-                        value="Submit"
-                     ></input>
+                     >
+                        Create user
+                     </button>
                   </div>
                </form>
             </article>

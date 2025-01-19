@@ -1,10 +1,8 @@
-import { useEffect } from "react";
 import { Navbar } from "../../components";
 import { DashboardProvider } from "../../context/DashboardContext";
-import CreateProject from "./CreateProject";
-import ProjectList from "./ProjectList";
 
 import "./index.scss";
+import Project from "./Project";
 
 const Dashboard = () => {
    return (
@@ -18,10 +16,10 @@ const Dashboard = () => {
          <div className="container">
             <section className="row body-container">
                <div className="col col-12 col-xl-12 col-xxl-8 mt-5">
-                  <ProjectList />
+                  <Project.List />
                </div>
                <div className="col col-12 col-xl-12 col-xxl-4 mt-5 card-section">
-                  <CreateProject />
+                  <Project.Create />
                </div>
             </section>
          </div>

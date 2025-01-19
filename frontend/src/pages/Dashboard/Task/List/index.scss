@@ -1,6 +1,7 @@
 .active-tasks {
+   max-height: 100px;
+   min-height: 100px;
    overflow: auto;
-   max-height: 200px;
    padding: 0 10px;
 
    .task-container {
@@ -35,8 +36,10 @@
 }
 
 .finished-tasks {
+   max-height: 100px;
+   min-height: 100px;
+
    overflow: auto;
-   max-height: 200px;
    padding: 0 10px;
 
    .form-check-input {
