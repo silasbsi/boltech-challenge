@@ -3,26 +3,22 @@ import "./index.scss";
 
 import { useForm } from "react-hook-form";
 
-import zodSchema, { zodResolver } from "../../common/schema/zod";
+import zodSchema, { zodResolver } from "../../schema/zod";
 import { Link } from "react-router-dom";
-
-type FormValues = {
-   userEmail: string;
-   userPassword: string;
-};
+import fetcher from "../../services/fetcher";
+import UserService from "../../services/userService";
 
 const Login = () => {
    const {
       register,
       handleSubmit,
       formState: { errors },
-   } = useForm<FormValues>({ resolver: zodResolver(zodSchema.loginForm) });
+   } = useForm({ resolver: zodResolver(zodSchema.loginForm) });
 
-   const onSubmit = handleSubmit((data) => console.log(data));
+   const onSubmit = handleSubmit(async (data) => {
+      await UserService.authenticate(data);
+   });
 
-   useEffect(() => {
-      console.log(errors);
-   }, [errors]);
    return (
       <section className="login-section d-flex align-items-center justify-content-center">
          <div className="row login-container d-flex">

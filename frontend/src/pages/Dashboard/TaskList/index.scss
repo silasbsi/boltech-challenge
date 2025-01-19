@@ -1,0 +1,50 @@
+.active-tasks {
+   overflow: auto;
+   max-height: 200px;
+   padding: 0 10px;
+
+   .form-check {
+      cursor: pointer;
+      transition: all 0.2s;
+      .trash-container {
+         opacity: 0;
+         transition: all 0.2s;
+      }
+
+      .task-container {
+         width: 250px;
+      }
+   }
+
+   .form-check {
+      &:hover {
+         color: #008fb3;
+         .trash-container {
+            opacity: 1;
+         }
+      }
+   }
+}
+
+.finished-tasks {
+   overflow: auto;
+   max-height: 200px;
+   padding: 0 10px;
+
+   .form-check-input {
+      &:checked {
+         background-color: #008fb3;
+         border-color: #008fb3;
+      }
+   }
+}
+
+// .elemento::-webkit-scrollbar {
+//     width: 0px;
+//     height: 0px;
+//   }
+
+//   /* Mantém o conteúdo rolável */
+//   .elemento {
+//     scrollbar-width: none;  /* Para Firefox */
+//   }

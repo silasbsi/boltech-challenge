@@ -8,6 +8,17 @@ const zodSchema = {
       userEmail: z.string().min(1, REQUIRED_FIELD_MESSAGE),
       userPassword: z.string().min(1, REQUIRED_FIELD_MESSAGE),
    }),
+   dashboard: {
+      createProject: z.object({
+         projectName: z.string().min(1, REQUIRED_FIELD_MESSAGE),
+      }),
+      createTask: z.object({
+         taskName: z.string().min(1, REQUIRED_FIELD_MESSAGE),
+      }),
+      projectHeader: z.object({
+         projectTitle: z.string().min(1, REQUIRED_FIELD_MESSAGE),
+      }),
+   },
 };
 
 export { zodResolver };

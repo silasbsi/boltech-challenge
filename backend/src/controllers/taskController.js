@@ -48,13 +48,14 @@ router.get("/", async (req, res) => {
 });
 
 router.delete("/delete", async (req, res) => {
-   const { projectId, taskId } = req.query;
-   console.log("projectId", projectId);
-   console.log("taskId", taskId);
+   const { projectId, taskId } = req.body;
+
    try {
+      const task = await Task.findOne({ projectId, _id: taskId });
+
       await Task.deleteOne({ projectId, _id: taskId });
 
-      return res.send({ taskId });
+      return res.send({ task });
    } catch (err) {
       return res.status(400).send({ error: "Error deleting task" });
    }

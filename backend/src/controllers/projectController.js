@@ -9,7 +9,7 @@ router.use(authMiddleware);
 
 router.post("/create", async (req, res) => {
    try {
-      const project = await Project.create(req.body);
+      const project = await Project.create({ ...req.body, userId: req.userId });
 
       return res.send({ project });
    } catch (err) {
@@ -44,7 +44,7 @@ router.get("/", async (req, res) => {
 });
 
 router.delete("/delete", async (req, res) => {
-   const { projectId } = req.query;
+   const { projectId } = req.body;
 
    try {
       await Project.findByIdAndDelete(projectId);
