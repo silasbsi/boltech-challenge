@@ -9,7 +9,9 @@ const ProjectService = {
    patch: async (payload) => {
       return await fetcher.patch("projects/update", payload);
    },
-   get: () => {},
+   get: async () => {
+      return await fetcher.get("projects");
+   },
    delete: async (projectId) => {
       return await fetcher.delete("projects/delete", {
          projectId,

@@ -9,14 +9,18 @@ const UserService = {
 
       if (!response.error) {
          localStorage.setItem("app-token", response.token);
-         window.location.href = "/dashboard";
+         localStorage.setItem("user-name", response.user.name);
       } else {
          localStorage.removeItem("app-token");
       }
+
+      return response;
    },
-   update: () => {},
-   get: () => {},
-   delete: () => {},
+   register: async (payload) => {
+      const response = await fetcher.post("auth/register", payload);
+
+      return response;
+   },
 };
 
 export default UserService;

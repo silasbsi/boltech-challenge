@@ -1,6 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 
-import fetcher from "../services/fetcher";
+import ProjectService from "../services/projectService";
 
 export const DashboardContext = createContext();
 
@@ -8,7 +8,7 @@ export const DashboardProvider = ({ children }) => {
    const [projects, setProjects] = useState([]);
 
    const setInitialState = async () => {
-      const { projects } = await fetcher.get("projects");
+      const { projects } = await ProjectService.get();
 
       const dataProjects = projects.map((project) => {
          return {

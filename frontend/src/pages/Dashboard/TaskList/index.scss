@@ -3,23 +3,31 @@
    max-height: 200px;
    padding: 0 10px;
 
-   .form-check {
-      cursor: pointer;
-      transition: all 0.2s;
-      .trash-container {
+   .task-container {
+      .buttons-container {
          opacity: 0;
          transition: all 0.2s;
+
+         &.show {
+            opacity: 1;
+         }
       }
 
-      .task-container {
-         width: 250px;
+      .form-check {
+         cursor: pointer;
+         transition: all 0.2s;
+
+         .form-check-label,
+         .form-check-input {
+            cursor: pointer;
+         }
       }
    }
 
-   .form-check {
+   .task-container {
       &:hover {
          color: #008fb3;
-         .trash-container {
+         .buttons-container {
             opacity: 1;
          }
       }
@@ -38,13 +46,3 @@
       }
    }
 }
-
-// .elemento::-webkit-scrollbar {
-//     width: 0px;
-//     height: 0px;
-//   }
-
-//   /* Mantém o conteúdo rolável */
-//   .elemento {
-//     scrollbar-width: none;  /* Para Firefox */
-//   }

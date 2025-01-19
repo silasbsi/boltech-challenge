@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Navbar } from "../../components";
 import { DashboardProvider } from "../../context/DashboardContext";
 import CreateProject from "./CreateProject";
@@ -9,7 +10,10 @@ const Dashboard = () => {
    return (
       <DashboardProvider>
          <section className="row header-container">
-            <Navbar title="EDirectInsure TODO List" userName="Silas Silva" />
+            <Navbar
+               title="EDirectInsure TODO List"
+               userName={localStorage.getItem("user-name")}
+            />
          </section>
          <div className="container">
             <section className="row body-container">

@@ -1,11 +1,16 @@
 import { useEffect, useState } from "react";
 
+import classNames from "classnames";
+
 import "./index.scss";
 import TaskService from "../../../services/taskService";
+import EditingTask from "../EditingTask";
+import { toast } from "react-toastify";
 
 const TaskList = ({ tasks, updateCallback, deleteCallback, projectId }) => {
    const [finishedTasks, setFinishedTasks] = useState([]);
    const [activeTasks, setActiveTasks] = useState([]);
+   const [isEditingTask, setIsEditingTask] = useState({});
 
    const handleClick = async (event) => {
       const taskId = event.target.value;
@@ -15,9 +20,29 @@ const TaskList = ({ tasks, updateCallback, deleteCallback, projectId }) => {
          projectId,
       };
 
-      const task = await TaskService.finish(payload);
+      const response = await TaskService.finish(payload);
 
-      updateCallback(task);
+      if (response.error) {
+         return toast.error(response.error);
+      }
+
+      updateCallback(response);
+
+      toast.success("Task successfully finished!");
+   };
+
+   const handleUpdate = (taskId, response) => {
+      if (response) {
+         updateCallback(response);
+      }
+
+      if (isEditingTask?.taskId) {
+         return setIsEditingTask({});
+      }
+
+      setIsEditingTask({
+         taskId,
+      });
    };
 
    const handleDelete = async (taskId, projectId) => {
@@ -26,9 +51,15 @@ const TaskList = ({ tasks, updateCallback, deleteCallback, projectId }) => {
          projectId,
       };
 
-      const task = await TaskService.delete(payload);
+      const response = await TaskService.delete(payload);
 
-      deleteCallback(task);
+      if (response.error) {
+         return toast.error(response.error);
+      }
+
+      deleteCallback(response);
+
+      toast.success("Task successfully removed!");
    };
 
    useEffect(() => {
@@ -47,32 +78,61 @@ const TaskList = ({ tasks, updateCallback, deleteCallback, projectId }) => {
                activeTasks?.map((activeTask) => (
                   <div
                      key={activeTask.id}
-                     className="form-check d-flex "
-                     title={`Task ${activeTask.description}, created at ${activeTask.createdAt}`}
+                     className="task-container d-flex align-items-center justify-content-between"
                   >
-                     <div className="task-container">
-                        <input
-                           className="form-check-input"
-                           type="checkbox"
-                           onChange={handleClick}
-                           value={activeTask.id}
-                           id={`task-${activeTask.id}`}
+                     {isEditingTask.taskId !== activeTask.id && (
+                        <div className="form-check">
+                           <div
+                              className="task-container"
+                              title={`Task ${activeTask.description}, created at ${activeTask.createdAt}`}
+                           >
+                              <input
+                                 className="form-check-input"
+                                 type="checkbox"
+                                 onChange={handleClick}
+                                 value={activeTask.id}
+                                 id={`task-${activeTask.id}`}
+                              />
+                              <label
+                                 className="form-check-label"
+                                 htmlFor={`task-${activeTask.id}`}
+                              >
+                                 {activeTask.description}
+                              </label>
+                           </div>
+                        </div>
+                     )}
+
+                     {isEditingTask.taskId === activeTask.id && (
+                        <EditingTask
+                           task={activeTask}
+                           handleUpdate={handleUpdate}
                         />
-                        <label
-                           className="form-check-label"
-                           htmlFor={`task-${activeTask.id}`}
-                        >
-                           {activeTask.description}
-                        </label>
-                     </div>
-                     <div
-                        className="trash-container"
-                        onClick={() =>
-                           handleDelete(activeTask.id, activeTask.projectId)
-                        }
-                     >
-                        <i className="bi bi-trash"></i>
-                     </div>
+                     )}
+                     {isEditingTask.taskId !== activeTask.id && (
+                        <div className="buttons-container ms-3 d-flex">
+                           <div
+                              className="edit-button"
+                              onClick={() => handleUpdate(activeTask.id)}
+                           >
+                              <i className="bi bi-pencil" title="Task edit"></i>
+                           </div>
+                           <div
+                              className="delete-button"
+                              onClick={() =>
+                                 handleDelete(
+                                    activeTask.id,
+                                    activeTask.projectId
+                                 )
+                              }
+                           >
+                              <i
+                                 className="bi bi-trash ms-3"
+                                 title="Task delete"
+                              ></i>
+                           </div>
+                        </div>
+                     )}
                   </div>
                ))}
             {activeTasks.length === 0 && <small>No tasks</small>}

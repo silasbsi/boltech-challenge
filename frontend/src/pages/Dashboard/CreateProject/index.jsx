@@ -6,6 +6,7 @@ import "./index.scss";
 import { useContext } from "react";
 import { DashboardContext } from "../../../context/DashboardContext";
 import ProjectService from "../../../services/projectService";
+import { toast, ToastContainer } from "react-toastify";
 
 const CreateProject = () => {
    const [, setProjects] = useContext(DashboardContext);
@@ -20,7 +21,13 @@ const CreateProject = () => {
    });
 
    const onSubmit = handleSubmit(async (data) => {
-      const { project } = await ProjectService.create(data);
+      const response = await ProjectService.create(data);
+
+      if (response.errors) {
+         return toast.error(response.error);
+      }
+
+      const { project } = response;
 
       setProjects((item) => {
          return [...item, { id: project._id, name: project.name }];
@@ -28,6 +35,8 @@ const CreateProject = () => {
 
       resetField("projectName");
       setFocus("projectName");
+
+      toast.success("Project successfully created!");
    });
 
    return (

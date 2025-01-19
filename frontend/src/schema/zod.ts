@@ -8,6 +8,11 @@ const zodSchema = {
       userEmail: z.string().min(1, REQUIRED_FIELD_MESSAGE),
       userPassword: z.string().min(1, REQUIRED_FIELD_MESSAGE),
    }),
+   registerForm: z.object({
+      userName: z.string().min(1, REQUIRED_FIELD_MESSAGE),
+      userEmail: z.string().min(1, REQUIRED_FIELD_MESSAGE),
+      userPassword: z.string().min(1, REQUIRED_FIELD_MESSAGE),
+   }),
    dashboard: {
       createProject: z.object({
          projectName: z.string().min(1, REQUIRED_FIELD_MESSAGE),
@@ -17,6 +22,9 @@ const zodSchema = {
       }),
       projectHeader: z.object({
          projectTitle: z.string().min(1, REQUIRED_FIELD_MESSAGE),
+      }),
+      taskList: z.object({
+         taskDescription: z.string().min(1, REQUIRED_FIELD_MESSAGE),
       }),
    },
 };

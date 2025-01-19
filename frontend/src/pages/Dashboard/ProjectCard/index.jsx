@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 
 import ProjectHeader from "../ProjectHeader";
 import TaskList from "../TaskList";
+import { toast } from "react-toastify";
 
 const ProjectCard = ({ title, id }) => {
    const [tasks, setTasks] = useState([]);
@@ -29,7 +30,13 @@ const ProjectCard = ({ title, id }) => {
          projectId: id,
       };
 
-      const { task } = await TaskService.create(payload);
+      const response = await TaskService.create(payload);
+
+      if (response.error) {
+         return toast.error(response.error);
+      }
+
+      const { task } = response;
 
       setTasks((item) => {
          return [
@@ -46,6 +53,8 @@ const ProjectCard = ({ title, id }) => {
 
       resetField("taskName");
       setFocus("taskName");
+
+      toast.success("Task successfully created!");
    });
 
    const updateCallback = (data) => {

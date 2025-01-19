@@ -4,7 +4,11 @@ const TaskService = {
    create: async (data) => {
       return await fetcher.post("tasks/create", data);
    },
-   update: () => {},
+   patch: async (payload) => {
+      const { task } = await fetcher.patch("tasks/update", payload);
+
+      return task;
+   },
    get: async (projectId) => {
       const { tasks } = await fetcher.get(`tasks?projectId=${projectId}`);
 

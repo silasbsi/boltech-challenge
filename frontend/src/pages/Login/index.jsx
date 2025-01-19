@@ -4,11 +4,13 @@ import "./index.scss";
 import { useForm } from "react-hook-form";
 
 import zodSchema, { zodResolver } from "../../schema/zod";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import fetcher from "../../services/fetcher";
 import UserService from "../../services/userService";
+import { toast } from "react-toastify";
 
 const Login = () => {
+   const navigate = useNavigate();
    const {
       register,
       handleSubmit,
@@ -16,7 +18,13 @@ const Login = () => {
    } = useForm({ resolver: zodResolver(zodSchema.loginForm) });
 
    const onSubmit = handleSubmit(async (data) => {
-      await UserService.authenticate(data);
+      const response = await UserService.authenticate(data);
+
+      if (response.error) {
+         return toast.error(response.error);
+      }
+
+      navigate("/dashboard");
    });
 
    return (
@@ -60,7 +68,7 @@ const Login = () => {
             <article className="col col-5 register-content d-flex flex-column align-items-center justify-content-center">
                <h2>Hello,</h2>
                <p>Enter your personal details</p>
-               <Link to="/register" className="btn btn-outline-light">
+               <Link to="/register" className="btn btn-outline-light mt-2">
                   Sign up
                </Link>
             </article>
