@@ -7,6 +7,7 @@ import { DashboardContext } from "../../../../context/DashboardContext";
 import { toast } from "react-toastify";
 
 import "./index.scss";
+import Form from "../../../../components/Form";
 
 const Header = ({ title, projectId }) => {
    const [projects, setProjects] = useContext(DashboardContext);
@@ -77,6 +78,11 @@ const Header = ({ title, projectId }) => {
       }
    };
 
+   const otherProps = {
+      errors,
+      register,
+   };
+
    return (
       <>
          <form onSubmit={onSubmit}>
@@ -85,24 +91,29 @@ const Header = ({ title, projectId }) => {
                   <a
                      className="title-content"
                      onClick={() => setIsEditingProject(true)}
+                     title={headerTitle ? headerTitle : title}
+                     aria-label={headerTitle ? headerTitle : title}
                   >
                      {headerTitle ? headerTitle : title}
                   </a>
                )}{" "}
                {isEditingProject && (
-                  <input
-                     {...register("projectTitle")}
-                     className="form-control"
-                     type="text"
-                     placeholder="Task"
+                  <Form.Input
+                     {...otherProps}
+                     id="projectTitle"
+                     label=""
+                     placeholder={headerTitle}
+                     required
+                     autoFocus={true}
                      onBlur={() => setIsEditingProject(false)}
-                     onChange={(event) => setHeaderTitle(event.target.value)}
                      value={headerTitle}
-                     aria-label="Create a new task"
+                     onChange={(event) => setHeaderTitle(event.target.value)}
+                     type="text"
+                     aria-label="Edit project title"
                   />
                )}
                <div className="d-flex flex-row ms-3">
-                  <a onClick={() => setIsEditingProject(!isEditingProject)}>
+                  <a onClick={() => setIsEditingProject(true)}>
                      <i className="bi bi-pencil"></i>
                   </a>
                   <a onClick={handleProjectDelete}>

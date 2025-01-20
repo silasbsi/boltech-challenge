@@ -9,6 +9,7 @@ import zodSchema, { zodResolver } from "../../../../schema/zod";
 import { toast } from "react-toastify";
 
 import "./index.scss";
+import Form from "../../../../components/Form";
 
 const Create = () => {
    const [, setProjects] = useContext(DashboardContext);
@@ -48,21 +49,31 @@ const Create = () => {
       toast.success("Project successfully created!");
    });
 
+   const otherProps = {
+      errors,
+      register,
+   };
+
    return (
       <article className="create-project-article m-5">
          <form className="pt-2" onSubmit={onSubmit}>
             <h3>Create a new project</h3>
-            <input
-               {...register("projectName")}
-               className="form-control mb-3"
-               type="text"
+            <Form.Input
+               {...otherProps}
+               id="projectName"
+               label=""
+               required
                placeholder="Project name"
+               type="text"
                aria-label="Create a new project"
             />
-            {errors?.projectName && <p>{errors.projectName.message}</p>}
-            <button type="submit" className="w-100 btn btn-primary">
+            <Form.Button
+               className="w-100 btn btn-primary mt-3"
+               title="Create Project"
+               type="submit"
+            >
                Create Project
-            </button>
+            </Form.Button>
          </form>
       </article>
    );

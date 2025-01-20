@@ -7,6 +7,7 @@ import UserService from "../../services/userService";
 
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import Form from "../../components/Form";
 
 const Register = () => {
    const navigate = useNavigate();
@@ -41,9 +42,17 @@ const Register = () => {
          }
 
          toast.success("User successfully registered!");
-         navigate("/dashboard");
+
+         setTimeout(() => {
+            navigate("/dashboard");
+         }, 1000);
       }
    });
+
+   const otherProps = {
+      errors,
+      register,
+   };
 
    return (
       <section className="register-section ">
@@ -52,39 +61,37 @@ const Register = () => {
                <h2>Register</h2>
                <form className="mt-3" onSubmit={onSubmit}>
                   <div className="mb-3 row">
-                     <input
-                        {...register("userName")}
-                        type="text"
-                        className="form-control"
+                     <Form.Input
+                        {...otherProps}
                         id="userName"
+                        label=""
                         placeholder="name"
+                        required
+                        type="text"
                         aria-label="Fill your name"
                      />
-                     {errors?.userName && <p>{errors.userName.message}</p>}
                   </div>
                   <div className="mb-3 row">
-                     <input
-                        {...register("userEmail")}
-                        type="email"
-                        className="form-control"
+                     <Form.Input
+                        {...otherProps}
                         id="userEmail"
+                        label=""
                         placeholder="name@example.com"
+                        required
+                        type="email"
                         aria-label="Fill your email"
                      />
-                     {errors?.userEmail && <p>{errors.userEmail.message}</p>}
                   </div>
                   <div className="mb-3 row">
-                     <input
-                        {...register("userPassword")}
-                        type="password"
+                     <Form.Input
+                        {...otherProps}
                         id="userPassword"
-                        className="form-control"
+                        label=""
                         placeholder="password"
+                        required
+                        type="password"
                         aria-label="Fill your password"
                      />
-                     {errors?.userPassword && (
-                        <p>{errors.userPassword.message}</p>
-                     )}
                   </div>
                   <div className="row">
                      <button

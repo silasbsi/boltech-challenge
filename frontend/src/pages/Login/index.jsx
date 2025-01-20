@@ -1,13 +1,15 @@
 import { useEffect } from "react";
-import "./index.scss";
 
 import { useForm } from "react-hook-form";
-
+import { Link, useNavigate } from "react-router-dom";
 import zodSchema, { zodResolver } from "../../schema/zod";
-import { Link, Navigate, useNavigate } from "react-router-dom";
-import fetcher from "../../services/fetcher";
+
 import UserService from "../../services/userService";
+import Form from "../../components/Form";
+
 import { toast } from "react-toastify";
+
+import "./index.scss";
 
 const Login = () => {
    const navigate = useNavigate();
@@ -25,15 +27,23 @@ const Login = () => {
          return toast.error(response.error);
       }
 
-      navigate("/dashboard");
+      setTimeout(() => {
+         navigate("/dashboard");
+      }, 1000);
    });
+
+   const otherProps = {
+      errors,
+      register,
+   };
 
    useEffect(() => {
       const isAuthenticated = localStorage.getItem("app-token");
+
       if (isAuthenticated) {
-         navigate("/dashboard", { replace: true });
+         navigate("/dashboard");
       }
-   }, [navigate]);
+   }, []);
 
    return (
       <section className="login-section">
@@ -42,33 +52,35 @@ const Login = () => {
                <form onSubmit={onSubmit}>
                   <h2>Sign in</h2>
                   <div className="mb-3 row">
-                     <input
-                        {...register("userEmail")}
-                        type="email"
-                        className="form-control"
+                     <Form.Input
+                        {...otherProps}
                         id="userEmail"
+                        label=""
                         placeholder="name@example.com"
+                        required
+                        type="email"
                         aria-label="Fill your email"
                      />
-                     {errors?.userEmail && <p>{errors.userEmail.message}</p>}
                   </div>
                   <div className="mb-3 row">
-                     <input
-                        {...register("userPassword")}
-                        type="password"
+                     <Form.Input
+                        {...otherProps}
                         id="userPassword"
-                        className="form-control"
+                        label=""
                         placeholder="password"
-                        aria-label="Fill your password"
+                        required
+                        type="password"
+                        aria-label="Fill your email"
                      />
-                     {errors?.userPassword && (
-                        <p>{errors.userPassword.message}</p>
-                     )}
                   </div>
                   <div className="row">
-                     <button className="btn btn-primary w-100" type="submit">
+                     <Form.Button
+                        className="btn btn-primary w-100"
+                        title="Login"
+                        type="submit"
+                     >
                         Login
-                     </button>
+                     </Form.Button>
                   </div>
                </form>
             </article>

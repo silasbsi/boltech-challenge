@@ -3,6 +3,7 @@ import zodSchema, { zodResolver } from "../../../../schema/zod";
 import { useState } from "react";
 import TaskService from "../../../../services/taskService";
 import { toast } from "react-toastify";
+import Form from "../../../../components/Form";
 
 const Edit = ({ task, handleUpdate }) => {
    const [taskDescription, setTaskDescription] = useState(task.description);
@@ -32,17 +33,25 @@ const Edit = ({ task, handleUpdate }) => {
       toast.success("Task successfully updated!");
    });
 
+   const otherProps = {
+      errors,
+      register,
+   };
+
    return (
       <form className="w-100 py-1 " onSubmit={onSubmit}>
-         <input
-            {...register("taskDescription")}
+         <Form.Input
+            {...otherProps}
+            id="taskDescription"
+            label=""
             className="form-control form-control-sm"
-            type="text"
             placeholder="Task"
+            required
+            autoFocus={true}
             onBlur={() => handleUpdate(task.id, false)}
             onChange={(event) => setTaskDescription(event.target.value)}
             value={taskDescription}
-            id={task.id}
+            type="text"
             aria-label="Edit task description"
          />
       </form>

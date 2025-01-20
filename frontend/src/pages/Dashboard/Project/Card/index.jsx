@@ -10,6 +10,7 @@ import zodSchema, { zodResolver } from "../../../../schema/zod";
 import Project from "..";
 import TaskService from "../../../../services/taskService";
 import Task from "../../Task";
+import Form from "../../../../components/Form";
 
 const Card = ({ title, id }) => {
    const [tasks, setTasks] = useState([]);
@@ -97,6 +98,11 @@ const Card = ({ title, id }) => {
       setTasks(taskList);
    };
 
+   const otherProps = {
+      errors,
+      register,
+   };
+
    useEffect(() => {
       fetchData();
    }, []);
@@ -105,33 +111,42 @@ const Card = ({ title, id }) => {
       <div className="card card-content">
          <Project.Header title={title} projectId={id} />
 
-         <div className="card-body">
-            <Task.List
-               tasks={tasks}
-               updateCallback={updateCallback}
-               deleteCallback={deleteCallback}
-               projectId={id}
-            />
-         </div>
-         <form onSubmit={onSubmit}>
-            <div className="card-footer d-flex align-item-center justify-content-between">
-               <input
-                  {...register("taskName")}
-                  className="form-control"
-                  type="text"
-                  placeholder="Task"
-                  aria-label="Create a new task"
+         <div className="p-3">
+            <div className="card-body">
+               <Task.List
+                  tasks={tasks}
+                  updateCallback={updateCallback}
+                  deleteCallback={deleteCallback}
+                  projectId={id}
                />
-
-               <div className="ms-3">
-                  <button type="submit" className="btn btn-success">
-                     Add
-                  </button>
-               </div>
-
-               {errors?.projectName && <p>{errors.projectName.message}</p>}
             </div>
-         </form>
+            <form onSubmit={onSubmit}>
+               <div className="card-footer d-flex align-item-center justify-content-between">
+                  <Form.Input
+                     {...otherProps}
+                     id="taskName"
+                     label=""
+                     placeholder="Task"
+                     required
+                     type="text"
+                     aria-label="Create a new task"
+                  />
+
+                  <div className="ms-3">
+                     <Form.Button
+                        className="btn btn-success"
+                        id={id}
+                        title="Add task"
+                        type="submit"
+                     >
+                        Add
+                     </Form.Button>
+                  </div>
+
+                  {errors?.projectName && <p>{errors.projectName.message}</p>}
+               </div>
+            </form>
+         </div>
       </div>
    );
 };

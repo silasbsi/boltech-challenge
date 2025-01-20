@@ -6,29 +6,37 @@ import Task from "..";
 import { toast } from "react-toastify";
 
 import "./index.scss";
+import { Form, Loading } from "../../../../components";
 
 const List = ({ tasks, updateCallback, deleteCallback, projectId }) => {
    const [finishedTasks, setFinishedTasks] = useState([]);
    const [activeTasks, setActiveTasks] = useState([]);
    const [isEditingTask, setIsEditingTask] = useState({});
+   const [loading, setLoading] = useState(true);
 
    const handleClick = async (event) => {
-      const taskId = event.target.value;
+      const confirmation = confirm(
+         "Are you sure you want to finish this task?"
+      );
 
-      const payload = {
-         taskId,
-         projectId,
-      };
+      if (confirmation) {
+         const taskId = event.target.value;
 
-      const response = await TaskService.finish(payload);
+         const payload = {
+            taskId,
+            projectId,
+         };
 
-      if (response.error) {
-         return toast.error(response.error);
+         const response = await TaskService.finish(payload);
+
+         if (response.error) {
+            return toast.error(response.error);
+         }
+
+         updateCallback(response);
+
+         toast.success("Task successfully finished!");
       }
-
-      updateCallback(response);
-
-      toast.success("Task successfully finished!");
    };
 
    const handleUpdate = (taskId, response) => {
@@ -74,13 +82,17 @@ const List = ({ tasks, updateCallback, deleteCallback, projectId }) => {
 
       const actived = tasks.filter((task) => !task.finishedAt);
       setActiveTasks(actived);
+
+      setTimeout(() => setLoading(false), 500);
    }, [tasks]);
 
    return (
       <>
          <h6 className="card-title">To Do</h6>
          <article className="active-tasks">
+            {loading && <Loading size="sm" />}
             {activeTasks &&
+               !loading &&
                activeTasks?.map((activeTask) => (
                   <div
                      key={activeTask.id}
@@ -94,19 +106,13 @@ const List = ({ tasks, updateCallback, deleteCallback, projectId }) => {
                                  activeTask.description
                               }, created at ${new Date(activeTask.createdAt)}`}
                            >
-                              <input
+                              <Form.Checkbox
                                  className="form-check-input"
-                                 type="checkbox"
+                                 id={`task-${activeTask.id}`}
+                                 label={activeTask.description}
                                  onChange={handleClick}
                                  value={activeTask.id}
-                                 id={`task-${activeTask.id}`}
                               />
-                              <label
-                                 className="form-check-label"
-                                 htmlFor={`task-${activeTask.id}`}
-                              >
-                                 {activeTask.description}
-                              </label>
                            </div>
                         </div>
                      )}
@@ -143,11 +149,13 @@ const List = ({ tasks, updateCallback, deleteCallback, projectId }) => {
                      )}
                   </div>
                ))}
-            {activeTasks.length === 0 && <small>No tasks</small>}
+            {activeTasks.length === 0 && !loading && <small>No tasks</small>}
          </article>
          <h6 className="card-title mt-3">Done</h6>
          <article className="finished-tasks">
+            {loading && <Loading />}
             {finishedTasks &&
+               !loading &&
                finishedTasks?.map((fininishedTask) => (
                   <div
                      key={fininishedTask.id}
@@ -158,24 +166,17 @@ const List = ({ tasks, updateCallback, deleteCallback, projectId }) => {
                         fininishedTask.createdAt
                      )} and finished at ${new Date(fininishedTask.finishedAt)}`}
                   >
-                     <input
+                     <Form.Checkbox
                         className="form-check-input"
-                        type="checkbox"
-                        value=""
                         id={`task-${fininishedTask.id}`}
+                        label={fininishedTask.description}
                         checked
                         disabled
                      />
-                     <label
-                        className="form-check-label"
-                        htmlFor="flexCheckChecked"
-                     >
-                        {fininishedTask.description}
-                     </label>
                   </div>
                ))}
 
-            {finishedTasks.length === 0 && <small>No tasks</small>}
+            {finishedTasks.length === 0 && !loading && <small>No tasks</small>}
          </article>
       </>
    );

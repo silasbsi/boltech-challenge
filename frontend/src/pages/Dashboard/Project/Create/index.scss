@@ -14,10 +14,12 @@
       border-color: #00b9e1;
       color: white;
       transition: all 0.3s;
-   }
 
-   button:hover {
-      background-color: #008fb3;
-      border-color: #008fb3;
+      &:active,
+      &:focus-visible,
+      &:hover {
+         background-color: #008fb3;
+         border-color: #008fb3;
+      }
    }
 }
