@@ -2,7 +2,7 @@
 
 Install **Node.js: v22.13.0** and **MongoDB: 8.0.4**
 
-## Banco de dados
+## Database
 1. Make sure that the MongoDb database is running
 
 ## Back-end project
