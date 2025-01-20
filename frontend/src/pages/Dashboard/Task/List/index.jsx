@@ -46,20 +46,26 @@ const List = ({ tasks, updateCallback, deleteCallback, projectId }) => {
    };
 
    const handleDelete = async (taskId, projectId) => {
-      const payload = {
-         taskId,
-         projectId,
-      };
+      const confirmation = confirm(
+         "Are you sure you want to remove this task?"
+      );
 
-      const response = await TaskService.delete(payload);
+      if (confirmation) {
+         const payload = {
+            taskId,
+            projectId,
+         };
 
-      if (response.error) {
-         return toast.error(response.error);
+         const response = await TaskService.delete(payload);
+
+         if (response.error) {
+            return toast.error(response.error);
+         }
+
+         deleteCallback(response);
+
+         toast.success("Task successfully removed!");
       }
-
-      deleteCallback(response);
-
-      toast.success("Task successfully removed!");
    };
 
    useEffect(() => {

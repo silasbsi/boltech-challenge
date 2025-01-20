@@ -53,19 +53,25 @@ const Header = ({ title, projectId }) => {
 
    const handleProjectDelete = async () => {
       try {
-         const response = await ProjectService.delete(projectId);
-
-         if (response.error) {
-            return toast.error(response.error);
-         }
-
-         const projectList = projects.filter(
-            (project) => project.id !== response.projectId
+         const confirmation = confirm(
+            "Are you sure you want to remove this project?"
          );
 
-         setProjects(projectList);
+         if (confirmation) {
+            const response = await ProjectService.delete(projectId);
 
-         toast.success("Project successfully removed!");
+            if (response.error) {
+               return toast.error(response.error);
+            }
+
+            const projectList = projects.filter(
+               (project) => project.id !== response.projectId
+            );
+
+            setProjects(projectList);
+
+            toast.success("Project successfully removed!");
+         }
       } catch (error) {
          console.error(`Error: ${error}`);
       }

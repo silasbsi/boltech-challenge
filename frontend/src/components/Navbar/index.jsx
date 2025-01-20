@@ -6,10 +6,14 @@ const Navbar = ({ title, userName }) => {
    const navigate = useNavigate();
 
    const handleLogout = () => {
-      localStorage.removeItem("app-token");
-      localStorage.removeItem("user-name");
+      const confirmation = confirm("Are you sure you want to log out?");
 
-      navigate("/");
+      if (confirmation) {
+         localStorage.removeItem("app-token");
+         localStorage.removeItem("user-name");
+
+         navigate("/");
+      }
    };
 
    return (
